@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="vi" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tết Bính Ngọ 2026 - Mã Đáo Thành Công</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&family=Dancing+Script:wght@700&family=Pinyon+Script&family=Noto+Serif+SC:wght@700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --tet-red: #D40000;
+            --tet-gold: #FFD700;
+        }
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #7b0000;
+        }
+        .font-sigka { font-family: 'Dancing Script', cursive; }
+        .font-accent { font-family: 'Pinyon Script', cursive; }
+        .font-chinese { font-family: 'Noto Serif SC', serif; }
+        .bg-red-gradient {
+            background: linear-gradient(135deg, #9b0000 0%, #D40000 50%, #9b0000 100%);
+        }
+        .text-gold {
+            color: var(--tet-gold);
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+        .petal {
+            position: fixed;
+            top: -10px;
+            z-index: 9999;
+            pointer-events: none;
+            border-radius: 50% 0 50% 50%;
+            animation: fall linear infinite;
+        }
+        @keyframes fall {
+            0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+            10% { opacity: 1; }
+            100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+        }
+        .modal-enter { animation: fadeIn 0.3s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
+        
+        /* Wood texture effect */
+        .wood-texture {
+            background: repeating-linear-gradient(90deg, #8B4513, #A0522D 10px, #8B4513 20px);
+            box-shadow: inset 10px 0 20px rgba(0,0,0,0.5), inset -10px 0 20px rgba(0,0,0,0.5);
+        }
+        
+        .shake-hard {
+            animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both infinite;
+        }
+
+        @keyframes shake {
+            10%, 90% { transform: translate3d(-2px, 0, 0) rotate(-1deg); }
+            20%, 80% { transform: translate3d(4px, 0, 0) rotate(2deg); }
+            30%, 50%, 70% { transform: translate3d(-8px, 0, 0) rotate(-4deg); }
+            40%, 60% { transform: translate3d(8px, 0, 0) rotate(4deg); }
+        }
+
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #5a0000; }
+        ::-webkit-scrollbar-thumb { background: var(--tet-gold); border-radius: 4px; }
+    </style>
+</head>
+<body class="text-white overflow-x-hidden">
+
+    <div id="petal-container"></div>
+
+    <!-- Header -->
+    <nav class="fixed w-full z-50 bg-black/30 backdrop-blur-md border-b border-yellow-600/30">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="text-2xl font-sigka text-yellow-400">Tết 2026</div>
+            <div class="hidden md:flex space-x-8 text-sm uppercase tracking-widest font-medium">
+                <a href="#home" class="hover:text-yellow-400 transition">Trang Chủ</a>
+                <a href="#zodiac" class="hover:text-yellow-400 transition">Bính Ngọ</a>
+                <a href="#wishes" class="hover:text-yellow-400 transition">Lời Chúc</a>
+                <a href="#fortune" class="hover:text-yellow-400 transition">Xin Quẻ</a>
+            </div>
+            <button onclick="window.location.href='#fortune'" class="bg-yellow-500 text-red-900 px-5 py-2 rounded-full font-bold text-sm hover:bg-yellow-400 transition shadow-lg">
+                XIN QUẺ ĐẦU NĂM
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="relative min-h-screen flex items-center justify-center pt-20 px-4 overflow-hidden">
+        <div class="absolute inset-0 z-0">
+            <div class="absolute inset-0 bg-black/40"></div>
+            <img src="https://images.unsplash.com/photo-1577114995803-d8ce0e2b4794?auto=format&fit=crop&q=80&w=2000" alt="Tet Background" class="w-full h-full object-cover">
+        </div>
+        <div class="relative z-10 text-center space-y-8 max-w-4xl">
+            <h1 class="text-6xl md:text-9xl font-sigka text-gold leading-tight animate-pulse">Tết Bính Ngọ</h1>
+            <h2 class="text-4xl md:text-6xl font-bold tracking-[0.2em] -mt-4 text-white drop-shadow-lg">2026</h2>
+            
+            <div id="countdown" class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-12">
+                <div class="bg-white/10 backdrop-blur-lg p-4 rounded-2xl border border-yellow-500/30">
+                    <div id="days" class="text-4xl md:text-5xl font-bold text-yellow-400">00</div>
+                    <div class="text-xs uppercase tracking-widest mt-1 opacity-70">Ngày</div>
+                </div>
+                <div class="bg-white/10 backdrop-blur-lg p-4 rounded-2xl border border-yellow-500/30">
+                    <div id="hours" class="text-4xl md:text-5xl font-bold text-yellow-400">00</div>
+                    <div class="text-xs uppercase tracking-widest mt-1 opacity-70">Giờ</div>
+                </div>
+                <div class="bg-white/10 backdrop-blur-lg p-4 rounded-2xl border border-yellow-500/30">
+                    <div id="minutes" class="text-4xl md:text-5xl font-bold text-yellow-400">00</div>
+                    <div class="text-xs uppercase tracking-widest mt-1 opacity-70">Phút</div>
+                </div>
+                <div class="bg-white/10 backdrop-blur-lg p-4 rounded-2xl border border-yellow-500/30">
+                    <div id="seconds" class="text-4xl md:text-5xl font-bold text-yellow-400">00</div>
+                    <div class="text-xs uppercase tracking-widest mt-1 opacity-70">Giây</div>
+                </div>
+            </div>
+            <p class="font-accent text-3xl text-yellow-200 opacity-80 pt-6">Cung chúc tân xuân - Vạn sự như ý</p>
+        </div>
+    </section>
+
+    <!-- Zodiac Section -->
+    <section id="zodiac" class="py-24 bg-red-gradient px-6 border-y border-yellow-500/20">
+        <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-16 items-center">
+            <div class="relative">
+                <h3 class="text-4xl font-bold mb-6 border-l-4 border-yellow-500 pl-6">Năm Bính Ngọ 2026</h3>
+                <p class="text-lg leading-relaxed text-red-100 mb-6">
+                    Linh vật của năm 2026 là chú <strong>Ngựa Vàng</strong>. Đây là năm của sự bứt phá, năng động và kiên cường. Những người sinh năm này thường mang trong mình nguồn năng lượng dồi dào, khát khao tự do và thành công rực rỡ.
+                </p>
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="bg-red-800/40 p-4 rounded-xl border border-yellow-500/20">
+                        <h4 class="text-yellow-400 font-bold mb-1 italic">Mệnh</h4>
+                        <p class="text-sm">Thiên Hà Thủy</p>
+                    </div>
+                    <div class="bg-red-800/40 p-4 rounded-xl border border-yellow-500/20">
+                        <h4 class="text-yellow-400 font-bold mb-1 italic">Tượng trưng</h4>
+                        <p class="text-sm">Mã Đáo Thành Công</p>
+                    </div>
+                </div>
+            </div>
+            <div class="flex justify-center relative">
+                 <div class="absolute inset-0 bg-yellow-400/10 blur-3xl rounded-full"></div>
+                 <svg viewBox="0 0 24 24" class="w-64 h-64 text-yellow-400 relative z-10" fill="currentColor">
+                    <path d="M19,10H17V12H19V10M19,6H17V8H19V6M21,14H3V4H21V14M15,6H13V8H15V6M15,10H13V12H15V10M11,6H9V8H11V6M11,10H9V12H11V10M7,6H5V8H7V6M7,10H5V12H7V10M21,16V18H3V16H21M21,20V22H3V20H21Z" />
+                 </svg>
+            </div>
+        </div>
+    </section>
+
+    <!-- New Year Wishes Section -->
+    <section id="wishes" class="py-24 bg-[#5a0000] px-6">
+        <div class="max-w-7xl mx-auto text-center mb-16">
+            <h3 class="text-5xl font-sigka text-gold mb-4">Lời Chúc Xuân Bính Ngọ</h3>
+            <p class="text-red-200 opacity-80">Gửi trao những lời chúc tốt đẹp nhất cho một năm mới rạng rỡ</p>
+        </div>
+
+        <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
+            <!-- 10 Lời chúc -->
+            <div class="bg-red-900/40 p-6 rounded-2xl border border-yellow-600/20 hover:bg-red-800/60 transition group">
+                <p class="text-sm italic leading-relaxed text-yellow-100">"Vạn sự như ý, tỷ sự như mơ, triệu triệu bất ngờ, không chờ cũng đến."</p>
+            </div>
+            <div class="bg-red-900/40 p-6 rounded-2xl border border-yellow-600/20 hover:bg-red-800/60 transition group">
+                <p class="text-sm italic leading-relaxed text-yellow-100">"Chúc mừng năm mới Bính Ngọ, mã đáo thành công, vạn dặm bình an."</p>
+            </div>
+            <div class="bg-red-900/40 p-6 rounded-2xl border border-yellow-600/20 hover:bg-red-800/60 transition group">
+                <p class="text-sm italic leading-relaxed text-yellow-100">"Năm mới sung túc, phúc lộc đầy nhà, trẻ già hạnh phúc, cười vang suốt năm."</p>
+            </div>
+            <div class="bg-red-900/40 p-6 rounded-2xl border border-yellow-600/20 hover:bg-red-800/60 transition group">
+                <p class="text-sm italic leading-relaxed text-yellow-100">"Tiền vào như nước, tiền ra nhỏ giọt, dồi dào sức khỏe, vạn sự thành công."</p>
+            </div>
+            <div class="bg-red-900/40 p-6 rounded-2xl border border-yellow-600/20 hover:bg-red-800/60 transition group">
+                <p class="text-sm italic leading-relaxed text-yellow-100">"Công việc hanh thông, thăng quan tiến chức, lộ trình thăng tiến rộng mở."</p>
+            </div>
+            <div class="bg-red-900/40 p-6 rounded-2xl border border-yellow-600/20 hover:bg-red-800/60 transition group">
+                <p class="text-sm italic leading-relaxed text-yellow-100">"Gia đình bình an, hạnh phúc tràn đầy, xuân sang đắc lộc, ấm êm trọn đời."</p>
+            </div>
+            <div class="bg-red-900/40 p-6 rounded-2xl border border-yellow-600/20 hover:bg-red-800/60 transition group">
+                <p class="text-sm italic leading-relaxed text-yellow-100">"Tống cựu nghênh tân, hỷ khí lâm môn, xuân khai phú quý, thọ lộc trường tồn."</p>
+            </div>
+            <div class="bg-red-900/40 p-6 rounded-2xl border border-yellow-600/20 hover:bg-red-800/60 transition group">
+                <p class="text-sm italic leading-relaxed text-yellow-100">"Sức khỏe dẻo dai, công việc thuận lợi, thăng tiến dài dài, tiền xài không hết."</p>
+            </div>
+            <div class="bg-red-900/40 p-6 rounded-2xl border border-yellow-600/20 hover:bg-red-800/60 transition group">
+                <p class="text-sm italic leading-relaxed text-yellow-100">"Nụ cười trên môi, lộc về tận cửa, vạn điều may mắn, hạnh phúc ngất ngây."</p>
+            </div>
+            <div class="bg-red-900/40 p-6 rounded-2xl border border-yellow-600/20 hover:bg-red-800/60 transition group">
+                <p class="text-sm italic leading-relaxed text-yellow-100">"Chúc mừng năm mới, an khang thịnh vượng, mã đáo thành công, mọi sự như ý."</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Fortune Section (Xin Quẻ) -->
+    <section id="fortune" class="py-24 bg-red-gradient px-6 relative overflow-hidden flex flex-col items-center">
+        <div class="max-w-4xl w-full text-center space-y-8">
+            <h3 class="text-5xl font-sigka text-gold">Xin Xăm Đầu năm</h3>
+            <p class="text-xl text-red-100 font-light">Thành tâm khấn nguyện - Lắc nhẹ tay xin quẻ đầu năm</p>
+            
+            <div class="relative flex justify-center items-center h-96 mt-10" id="fortune-container">
+                
+                <!-- Câu đối trái -->
+                <!-- <div class="hidden md:flex flex-col space-y-6 text-yellow-400 text-2xl font-serif font-bold mr-12 opacity-90 select-none drop-shadow-md" style="writing-mode: vertical-rl; text-orientation: upright;">
+                    <span class="py-2">Hữu</span>
+                    <span class="py-2">Cầu</span>
+                    <span class="py-2">Tất</span>
+                    <span class="py-2">Ứng</span>
+                </div> -->
+
+                <!-- Ống Xăm Container -->
+                <div id="shaker" class="relative group cursor-pointer" onclick="xinQue()">
+                    <!-- Các thẻ xăm (Sticks) -->
+                    <div class="absolute -top-16 left-1/2 -translate-x-1/2 w-32 h-40 flex justify-center items-end space-x-1 z-0">
+                        <div class="w-3 h-32 bg-yellow-100 border border-gray-300 rounded-t transform -rotate-12 translate-y-4">
+                            <div class="w-full h-10 bg-red-600 rounded-t"></div>
+                        </div>
+                        <div class="w-3 h-36 bg-yellow-100 border border-gray-300 rounded-t transform -rotate-6 translate-y-2">
+                            <div class="w-full h-10 bg-red-600 rounded-t"></div>
+                        </div>
+                        <div class="w-3 h-40 bg-yellow-100 border border-gray-300 rounded-t transform rotate-0 z-10" id="lucky-stick">
+                            <div class="w-full h-10 bg-red-600 rounded-t"></div>
+                        </div>
+                        <div class="w-3 h-36 bg-yellow-100 border border-gray-300 rounded-t transform rotate-6 translate-y-2">
+                            <div class="w-full h-10 bg-red-600 rounded-t"></div>
+                        </div>
+                        <div class="w-3 h-32 bg-yellow-100 border border-gray-300 rounded-t transform rotate-12 translate-y-4">
+                            <div class="w-full h-10 bg-red-600 rounded-t"></div>
+                        </div>
+                    </div>
+
+                    <!-- Thân Ống -->
+                    <div class="relative w-40 h-56 wood-texture rounded-b-3xl rounded-t-lg shadow-2xl z-10 flex flex-col items-center overflow-hidden border-2 border-[#5C3317]">
+                        <!-- Đai đỏ -->
+                        <div class="w-full h-12 bg-[#B22222] border-b-2 border-[#800000] flex items-center justify-center shadow-md">
+                            <span class="text-yellow-400 font-chinese text-sm tracking-widest font-bold">黄大仙</span>
+                        </div>
+                        <!-- Chữ Phúc -->
+                        <div class="flex-1 flex items-center justify-center">
+                            <span class="text-7xl font-chinese text-black opacity-80 drop-shadow-md">福</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Bóng đổ -->
+                    <div class="absolute -bottom-4 left-1/2 -translate-x-1/2 w-32 h-4 bg-black/40 blur-md rounded-full"></div>
+                </div>
+
+                <!-- Câu đối phải -->
+                <!-- <div class="hidden md:flex flex-col space-y-6 text-yellow-400 text-2xl font-serif font-bold ml-12 opacity-90 select-none drop-shadow-md" style="writing-mode: vertical-rl; text-orientation: upright;">
+                     <span class="py-2">Sở</span>
+                     <span class="py-2">Cầu</span>
+                     <span class="py-2">Như</span>
+                     <span class="py-2">Ý</span>
+                </div> -->
+            </div>
+
+            <div class="mt-8">
+                <button onclick="xinQue()" class="bg-yellow-500 text-red-900 px-10 py-4 rounded-full font-black text-xl hover:bg-yellow-400 transition-all shadow-[0_6px_0_rgb(180,130,0)] active:shadow-none active:translate-y-[6px] uppercase tracking-wider">
+                    Lắc Quẻ
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modal Quẻ -->
+    <div id="que-modal" class="fixed inset-0 z-[100] hidden flex items-center justify-center p-6">
+        <div class="absolute inset-0 bg-black/80 backdrop-blur-sm" onclick="closeModal()"></div>
+        <div class="relative bg-white text-red-900 w-full max-w-md p-8 rounded-[2rem] border-8 border-yellow-500 text-center modal-enter shadow-2xl">
+            <!-- Stick result visual -->
+            <div class="absolute -top-16 left-1/2 -translate-x-1/2">
+                <div class="w-6 h-32 bg-yellow-100 border-2 border-yellow-600 rounded flex flex-col items-center shadow-lg">
+                    <div class="w-full h-8 bg-red-600 rounded-t"></div>
+                    <div class="flex-1 flex items-center justify-center writing-vertical text-red-900 font-bold font-chinese py-2">
+                        Thượng Cát
+                    </div>
+                </div>
+            </div>
+
+            <h4 id="que-title" class="text-4xl font-sigka mb-4 pt-16 text-red-600">Đại Cát</h4>
+            <div class="w-16 h-1 bg-red-600 mx-auto mb-6"></div>
+            <p id="que-desc" class="text-xl font-bold leading-relaxed mb-8 italic">"Vạn sự hanh thông, cầu gì được nấy. Một năm rực rỡ đang chờ đón bạn phía trước!"</p>
+            <button onclick="closeModal()" class="bg-red-600 text-white px-8 py-3 rounded-full font-bold hover:bg-red-700 transition shadow-lg">TẠ QUẺ</button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="py-12 bg-black text-center px-6 border-t border-yellow-600/20">
+        <div class="text-3xl font-sigka text-gold mb-6">Tết Bính Ngọ 2026</div>
+        <p class="text-xs text-gray-500 tracking-widest uppercase">&copy; 2026 Lịch Đếm Ngược & Xin Quẻ. Thiết kế bởi Fullstack Developer.</p>
+    </footer>
+
+    <script>
+        // --- Countdown Logic ---
+        const tetDate = new Date('February 17, 2026 00:00:00').getTime();
+        const updateCountdown = () => {
+            const now = new Date().getTime();
+            const gap = tetDate - now;
+            const second = 1000, minute = second * 60, hour = minute * 60, day = hour * 24;
+            const d = Math.floor(gap / day), h = Math.floor((gap % day) / hour), m = Math.floor((gap % hour) / minute), s = Math.floor((gap % minute) / second);
+            document.getElementById('days').innerText = d < 10 ? '0'+d : d;
+            document.getElementById('hours').innerText = h < 10 ? '0'+h : h;
+            document.getElementById('minutes').innerText = m < 10 ? '0'+m : m;
+            document.getElementById('seconds').innerText = s < 10 ? '0'+s : s;
+        };
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
+
+        // --- Petal Animation ---
+        const petalContainer = document.getElementById('petal-container');
+        const petalColors = ['#ffd700', '#ffcc00', '#ffb3ba', '#ffdfba'];
+        setInterval(() => {
+            const petal = document.createElement('div');
+            petal.classList.add('petal');
+            const size = Math.random() * 10 + 10 + 'px';
+            petal.style.width = size; petal.style.height = size;
+            petal.style.left = Math.random() * 100 + 'vw';
+            petal.style.backgroundColor = petalColors[Math.floor(Math.random() * petalColors.length)];
+            petal.style.animationDuration = Math.random() * 3 + 2 + 's';
+            petal.style.opacity = Math.random();
+            petalContainer.appendChild(petal);
+            setTimeout(() => petal.remove(), 5000);
+        }, 300);
+
+        // --- Fortune (Xin Quẻ) Logic ---
+        const danhSachQue = [
+            { title: "Đại Cát", desc: "Vạn sự hanh thông, cầu gì được nấy. Một năm rực rỡ đang chờ đón bạn phía trước!" },
+            { title: "Thượng Cát", desc: "Quý nhân phù trợ, tiền tài gõ cửa. Năm nay sự nghiệp thăng tiến như rồng bay phượng múa." },
+            { title: "Mã Đáo Thành Công", desc: "Như chú ngựa phi nước đại, mọi kế hoạch của bạn sẽ đạt mục tiêu nhanh chóng ngoài mong đợi." },
+            { title: "Trung Cát", desc: "Gia đạo bình an, sức khỏe dồi dào. Một năm bình yên và hạnh phúc bên người thân." },
+            { title: "Phú Quý", desc: "Tiền bạc dư dả, lộc lá đầy nhà. Hãy tự tin thực hiện các dự định kinh doanh nhé." },
+            { title: "Bình Hòa", desc: "Tâm an vạn sự an. Giữ vững tinh thần lạc quan, mọi khó khăn đều sẽ lùi xa." },
+            { title: "Hỷ Sự", desc: "Tin vui dồn dập, tình duyên thăng hoa. Có thể có hỷ sự lớn trong gia đình năm nay." },
+            { title: "Vạn Lộc", desc: "Gieo nhân lành gặt quả ngọt. Những nỗ lực của bạn bấy lâu nay sẽ được đền đáp xứng đáng." }
+        ];
+
+        let isShaking = false;
+
+        function xinQue() {
+            if (isShaking) return;
+            isShaking = true;
+
+            const shaker = document.getElementById('shaker');
+            const stick = document.getElementById('lucky-stick');
+            
+            // Add shake class
+            shaker.classList.add('shake-hard');
+            
+            // Animation sequence
+            setTimeout(() => {
+                shaker.classList.remove('shake-hard');
+                
+                // Stick rises up
+                stick.style.transition = "transform 0.5s ease-out";
+                stick.style.transform = "translateY(-40px)";
+
+                setTimeout(() => {
+                    const randomQue = danhSachQue[Math.floor(Math.random() * danhSachQue.length)];
+                    document.getElementById('que-title').innerText = randomQue.title;
+                    document.getElementById('que-desc').innerText = randomQue.desc;
+                    document.getElementById('que-modal').classList.remove('hidden');
+                    
+                    // Reset stick
+                    stick.style.transition = "none";
+                    stick.style.transform = "rotate(0)";
+                    isShaking = false;
+                }, 600);
+            }, 1000); // Shake duration
+        }
+
+        function closeModal() {
+            document.getElementById('que-modal').classList.add('hidden');
+        }
+    </script>
+</body>
+</html>
