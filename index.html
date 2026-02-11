@@ -58,6 +58,18 @@
             40%, 60% { transform: translate3d(8px, 0, 0) rotate(4deg); }
         }
 
+        /* Music Player Animation */
+        .music-spin {
+            animation: spin-record 3s linear infinite;
+        }
+        .music-paused {
+            animation-play-state: paused;
+        }
+        @keyframes spin-record {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: #5a0000; }
         ::-webkit-scrollbar-thumb { background: var(--tet-gold); border-radius: 4px; }
@@ -66,6 +78,24 @@
 <body class="text-white overflow-x-hidden">
 
     <div id="petal-container"></div>
+
+    <!-- Music Player Control -->
+    <div class="fixed bottom-6 left-6 z-[100] flex items-center gap-3">
+        <button id="music-btn" onclick="toggleMusic()" class="relative group bg-yellow-500 w-14 h-14 rounded-full border-4 border-red-800 shadow-2xl flex items-center justify-center cursor-pointer hover:scale-110 transition-transform duration-300">
+            <!-- CD Effect -->
+            <div id="music-disc" class="absolute inset-0 rounded-full border-2 border-dashed border-red-900/50 music-spin music-paused"></div>
+            <!-- Icon -->
+            <span id="music-icon" class="text-2xl z-10">🔇</span>
+        </button>
+        <div class="bg-black/50 backdrop-blur px-3 py-1 rounded-full text-xs text-yellow-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none whitespace-nowrap">
+            Nhạc Xuân 2026
+        </div>
+    </div>
+
+    <!-- Audio Tag (Link nhạc mẫu không bản quyền) -->
+    <audio id="bg-music" loop>
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-15.mp3" type="audio/mpeg">
+    </audio>
 
     <!-- Header -->
     <nav class="fixed w-full z-50 bg-black/30 backdrop-blur-md border-b border-yellow-600/30">
@@ -193,14 +223,6 @@
             
             <div class="relative flex justify-center items-center h-96 mt-10" id="fortune-container">
                 
-                <!-- Câu đối trái -->
-                <!-- <div class="hidden md:flex flex-col space-y-6 text-yellow-400 text-2xl font-serif font-bold mr-12 opacity-90 select-none drop-shadow-md" style="writing-mode: vertical-rl; text-orientation: upright;">
-                    <span class="py-2">Hữu</span>
-                    <span class="py-2">Cầu</span>
-                    <span class="py-2">Tất</span>
-                    <span class="py-2">Ứng</span>
-                </div> -->
-
                 <!-- Ống Xăm Container -->
                 <div id="shaker" class="relative group cursor-pointer" onclick="xinQue()">
                     <!-- Các thẻ xăm (Sticks) -->
@@ -238,13 +260,6 @@
                     <div class="absolute -bottom-4 left-1/2 -translate-x-1/2 w-32 h-4 bg-black/40 blur-md rounded-full"></div>
                 </div>
 
-                <!-- Câu đối phải -->
-                <!-- <div class="hidden md:flex flex-col space-y-6 text-yellow-400 text-2xl font-serif font-bold ml-12 opacity-90 select-none drop-shadow-md" style="writing-mode: vertical-rl; text-orientation: upright;">
-                     <span class="py-2">Sở</span>
-                     <span class="py-2">Cầu</span>
-                     <span class="py-2">Như</span>
-                     <span class="py-2">Ý</span>
-                </div> -->
             </div>
 
             <div class="mt-8">
@@ -313,6 +328,47 @@
             petalContainer.appendChild(petal);
             setTimeout(() => petal.remove(), 5000);
         }, 300);
+
+        // --- Music Player Logic ---
+        const audio = document.getElementById('bg-music');
+        const musicDisc = document.getElementById('music-disc');
+        const musicIcon = document.getElementById('music-icon');
+        let isPlaying = false;
+
+        function toggleMusic() {
+            if (isPlaying) {
+                audio.pause();
+                musicDisc.classList.add('music-paused');
+                musicIcon.innerText = '🔇';
+            } else {
+                audio.play().then(() => {
+                    musicDisc.classList.remove('music-paused');
+                    musicIcon.innerText = '🎵';
+                }).catch(err => {
+                    console.log("Autoplay prevented: ", err);
+                });
+            }
+            isPlaying = !isPlaying;
+        }
+
+        // Auto play workaround (Chrome policy blocks auto audio without interaction)
+        // Try to play on load
+        window.addEventListener('load', () => {
+            audio.volume = 0.5; // Set volume 50%
+            audio.play().then(() => {
+                isPlaying = true;
+                musicDisc.classList.remove('music-paused');
+                musicIcon.innerText = '🎵';
+            }).catch(() => {
+                // If blocked, wait for first user interaction
+                document.addEventListener('click', function initAudio() {
+                    if(!isPlaying) {
+                        toggleMusic();
+                        document.removeEventListener('click', initAudio);
+                    }
+                }, { once: true });
+            });
+        });
 
         // --- Fortune (Xin Quẻ) Logic ---
         const danhSachQue = [
